@@ -13,6 +13,18 @@ find 01.CleanData_1 -type f -name "*.fq.gz" -exec cp {} fastqs/ \;
 # then the odd hidden files were removed with:
 find fastqs -maxdepth 1 -name ".*" -delete
 
+# then multiple runs per individual were conatenated with:
+cat 114-19_HFL22DSX2_L2_1.clean.fq.gz 114-19_HGHF2DSX2_L4_1.clean.fq.gz > 114-19_1.clean.fq.gz
+rm 114-19_HFL22DSX2_L2_1.clean.fq.gz 114-19_HGHF2DSX2_L4_1.clean.fq.gz
+
+cat 114-19_HFL22DSX2_L2_2.clean.fq.gz 114-19_HGHF2DSX2_L4_2.clean.fq.gz > 114-19_2.clean.fq.gz
+rm 114-19_HFL22DSX2_L2_2.clean.fq.gz 114-19_HGHF2DSX2_L4_2.clean.fq.gz
+
+
+
+
+
+
 
 
 
