@@ -20,6 +20,43 @@ rm 114-19_HFL22DSX2_L2_1.clean.fq.gz 114-19_HGHF2DSX2_L4_1.clean.fq.gz
 cat 114-19_HFL22DSX2_L2_2.clean.fq.gz 114-19_HGHF2DSX2_L4_2.clean.fq.gz > 114-19_2.clean.fq.gz
 rm 114-19_HFL22DSX2_L2_2.clean.fq.gz 114-19_HGHF2DSX2_L4_2.clean.fq.gz
 
+cat D11422_HFL22DSX2_L2_1.clean.fq.gz D11422_HGHF2DSX2_L4_1.clean.fq.gz > D11422_1.clean.fq.gz
+rm D11422_HFL22DSX2_L2_1.clean.fq.gz D11422_HGHF2DSX2_L4_1.clean.fq.gz
+
+cat D11422_HFL22DSX2_L2_2.clean.fq.gz D11422_HGHF2DSX2_L4_2.clean.fq.gz > D11422_2.clean.fq.gz
+rm D11422_HFL22DSX2_L2_2.clean.fq.gz D11422_HGHF2DSX2_L4_2.clean.fq.gz
+
+cat D11423_HFL22DSX2_L2_1.clean.fq.gz D11423_HGHF2DSX2_L4_1.clean.fq.gz > D11423_1.clean.fq.gz
+rm D11423_HFL22DSX2_L2_1.clean.fq.gz D11423_HGHF2DSX2_L4_1.clean.fq.gz
+
+cat D11423_HFL22DSX2_L2_2.clean.fq.gz D11423_HGHF2DSX2_L4_2.clean.fq.gz > D11423_2.clean.fq.gz
+rm D11423_HFL22DSX2_L2_2.clean.fq.gz D11423_HGHF2DSX2_L4_2.clean.fq.gz
+
+cat D1144_HFL22DSX2_L2_1.clean.fq.gz D1144_HGHF2DSX2_L4_1.clean.fq.gz > D1144_1.clean.fq.gz
+rm D1144_HFL22DSX2_L2_1.clean.fq.gz D1144_HGHF2DSX2_L4_1.clean.fq.gz
+
+cat D1144_HFL22DSX2_L2_2.clean.fq.gz D1144_HGHF2DSX2_L4_2.clean.fq.gz > D1144_2.clean.fq.gz
+rm D1144_HFL22DSX2_L2_2.clean.fq.gz D1144_HGHF2DSX2_L4_2.clean.fq.gz
+
+cat D1146_HFL22DSX2_L2_1.clean.fq.gz D1146_HGHF2DSX2_L4_1.clean.fq.gz > D1146_1.clean.fq.gz
+rm D1146_HFL22DSX2_L2_1.clean.fq.gz D1146_HGHF2DSX2_L4_1.clean.fq.gz
+
+cat D1146_HFL22DSX2_L2_2.clean.fq.gz D1146_HGHF2DSX2_L4_2.clean.fq.gz > D1146_2.clean.fq.gz
+rm D1146_HFL22DSX2_L2_2.clean.fq.gz D1146_HGHF2DSX2_L4_2.clean.fq.gz
+
+cat D1148_HWFCWDSXY_L1_1.clean.fq.gz D1148_HGHF2DSX2_L4_1.clean.fq.gz > D1148_1.clean.fq.gz
+rm D1148_HWFCWDSXY_L1_1.clean.fq.gz D1148_HGHF2DSX2_L4_1.clean.fq.gz
+
+cat D1148_HWFCWDSXY_L1_2.clean.fq.gz D1148_HGHF2DSX2_L4_2.clean.fq.gz > D1148_2.clean.fq.gz
+rm D1148_HWFCWDSXY_L1_2.clean.fq.gz D1148_HGHF2DSX2_L4_2.clean.fq.gz
+
+
+
+
+
+
+
+
 
 
 
