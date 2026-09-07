@@ -51,20 +51,6 @@ cat D1148_HWFCWDSXY_L1_2.clean.fq.gz D1148_HGHF2DSX2_L4_2.clean.fq.gz > D1148_2.
 rm D1148_HWFCWDSXY_L1_2.clean.fq.gz D1148_HGHF2DSX2_L4_2.clean.fq.gz
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # the reference genome was downloded from NCBI using:
 cd /gpfs01/home/mbzlld/data/paul_dyer/reference_genomes
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/900/007/375/GCF_900007375.1_ASM90000737v1/GCF_900007375.1_ASM90000737v1_genomic.fna.gz
