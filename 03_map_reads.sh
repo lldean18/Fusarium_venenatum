@@ -27,8 +27,8 @@ SAMPLE=$(awk -v ArrayTaskID=$SLURM_ARRAY_TASK_ID '$1==ArrayTaskID {print $3}' $C
 echo "mapping reads for array step $ARRAY_STEP for the sample $SAMPLE with the files ${IDENTIFIER}_1.fq.gz and ${IDENTIFIER}_2.fq.gz"
 
 # name the forward and reverse reads for this array step using the sample info
-fwd_reads=${IDENTIFIER}_1.fq.gz
-rev_reads=${IDENTIFIER}_2.fq.gz
+fwd_reads=${IDENTIFIER}_1.clean.fq.gz
+rev_reads=${IDENTIFIER}_2.clean.fq.gz
 
 # set the reference genome that we will map the reads to
 # the reference must be indexed with the bwa index command once before running this script
