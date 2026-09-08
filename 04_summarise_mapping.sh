@@ -4,6 +4,7 @@
 # script to summarise mapping success
 
 cd ~/data/paul_dyer/bams/bam_info
+cd ~/data/paul_dyer/filtered_bams/bam_info
 
 {
 printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
