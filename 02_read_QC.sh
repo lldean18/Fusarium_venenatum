@@ -31,3 +31,4 @@ multiqc fastqc -o fastqc/multiqc
 # unload software
 module unload fastqc-uoneasy/0.12.1-Java-11
 
+
