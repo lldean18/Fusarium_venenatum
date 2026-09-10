@@ -64,20 +64,32 @@ WKDIR=/gpfs01/home/mbzlld/data/paul_dyer
 ##  #120-01.g.vcf.gz
 
 
-# perform joint genotype calling
-echo "PERFORMING JOINT GENOTYPE CALLING"
-singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk GenotypeGVCFs \
---output variants/FusVen.raw.vcf.gz \
---reference reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna \
---variant gendb://variants/FusariumDB \
---annotation-group StandardAnnotation \
---annotation-group StandardHCAnnotation \
---call-genotypes true
-echo "FINIHSED JOINT GENOTYPE CALLING"
+##  # perform joint genotype calling
+##  echo "PERFORMING JOINT GENOTYPE CALLING"
+##  singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk GenotypeGVCFs \
+##  --output variants/FusVen.raw.vcf.gz \
+##  --reference reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna \
+##  --variant gendb://variants/FusariumDB \
+##  --annotation-group StandardAnnotation \
+##  --annotation-group StandardHCAnnotation \
+##  --call-genotypes true
+##  echo "FINIHSED JOINT GENOTYPE CALLING"
 
-#--annotation-group GenotypeAnnotation \
-#--annotation-group VariantAnnotation \
 
-#singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk GenotypeGVCFs --help
+#singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk SelectVariants --help
+
+# split snps and indels
+singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk SelectVariants \
+--variant variants/FusVen.raw.vcf.gz \
+--select-type-to-include SNP \
+--output variants/FusVen.raw.snps.vcf.gz
+
+singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk SelectVariants \
+--variant variants/FusVen.raw.vcf.gz \
+--select-type-to-include INDEL \
+--output variants/FusVen.raw.indels.vcf.gz
+
+
+
 
 
