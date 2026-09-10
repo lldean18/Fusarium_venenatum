@@ -39,7 +39,8 @@ singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk H
 --output variants/$SAMPLE.g.vcf.gz \
 --reference reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna \
 --emit-ref-confidence GVCF \
---native-pair-hmm-threads 16
+--native-pair-hmm-threads 16 \
+--ploidy 1
 
 
 #singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk HaplotypeCaller --help
