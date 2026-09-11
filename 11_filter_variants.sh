@@ -73,11 +73,21 @@ bcftools view -h FusVen.raw.snps.SF.vcf.gz | grep -E 'ID=(QD|MQ|FS|SOR|MQRankSum
 bcftools +setGT \
     FusVen.raw.snps.SF.vcf.gz \
     -Oz \
+    -o FusVen.raw.snps.SF.GF1set.vcf.gz \
+    -- \
+    -t q \
+    -n . \
+    -i 'FMT/DP<8'
+bcftools index -t FusVen.raw.snps.SF.GF1set.vcf.gz
+
+bcftools +setGT \
+    FusVen.raw.snps.SF.GF1set.vcf.gz \
+    -Oz \
     -o FusVen.raw.snps.SF.GFset.vcf.gz \
     -- \
     -t q \
     -n . \
-    -i 'FMT/DP<10 || FMT/GQ<20'
+    -i 'FMT/GQ<20'
 bcftools index -t FusVen.raw.snps.SF.GFset.vcf.gz
 
 # reset the missingness tags
@@ -85,12 +95,14 @@ bcftools +fill-tags \
     FusVen.raw.snps.SF.GFset.vcf.gz \
     -Oz \
     -o FusVen.raw.snps.SF.GFset.miss.vcf.gz \
-    -- -t F_MISSING,MAF,AF,AC,AN
+    -- -t F_MISSING,MAF,AF,AC,AN,NS
 bcftools index -t FusVen.raw.snps.SF.GFset.miss.vcf.gz
+
+
 
 # now filter for missingness
 bcftools view \
-    -i 'INFO/F_MISSING<=0.20' \
+    -e 'INFO/F_MISSING>0.25' \
     FusVen.raw.snps.SF.GFset.miss.vcf.gz \
     -Oz \
     -o FusVen.snps.filtered.vcf.gz
@@ -98,6 +110,6 @@ bcftools index -t FusVen.snps.filtered.vcf.gz
 
 # check how many variants were filtered out by genotype-filtering
 bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,214,790 (for the haploid called) 2,227,569 (diploid called)
-bcftools view -H FusVen.snps.filtered.vcf.gz | wc -l # 387,583 (for the haploid called) 1,709,395 (diploid called)
+bcftools view -H FusVen.snps.filtered.vcf.gz | wc -l # 2,018,836new 387,583old (for the haploid called) 1,709,395 (diploid called)
 
 
