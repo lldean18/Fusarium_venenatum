@@ -12,7 +12,10 @@ bedtools makewindows -g reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.
 bedtools makewindows -g reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna.fai -w 50000 > snp_density/windows_50kb.bed
 bedtools makewindows -g reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna.fai -w 20000 > snp_density/windows_20kb.bed
 
+#######################
 # count snps in windows
+#######################
+
 bedtools coverage \
 -a snp_density/windows_100kb.bed \
 -b variants/FusVen.snps.filtered.vcf.gz \
@@ -27,4 +30,21 @@ bedtools coverage \
 -a snp_density/windows_20kb.bed \
 -b variants/FusVen.snps.filtered.vcf.gz \
 -counts > snp_density/snp_counts_20kb_winds.txt
+
+########################
+# coung genes in windows
+########################
+
+# filter the gff to retain only genes
+awk -F'\t' '$3 == "gene"' reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.gff > reference_genomes/GCF_900007375.1_ASM90000737v1_genomic_genes.gff
+
+# count the genes across windows
+bedtools coverage \
+    -a snp_density/windows_20kb.bed \
+    -b reference_genomes/GCF_900007375.1_ASM90000737v1_genomic_genes.gff \
+    -counts \
+    > snp_density/gene_counts_20kb_winds.txt
+
+
+
 
