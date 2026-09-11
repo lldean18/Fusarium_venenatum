@@ -4,6 +4,7 @@
 # script to filter raw variants
 
 #setup env
+srun --partition defq --cpus-per-task 4 --mem 20g --time 06:00:00 --pty bash
 module load bcftools-uoneasy/1.19-GCC-13.2.0
 module load singularity/3.8.5
 #cd ~/software_bin/singularity
@@ -52,12 +53,12 @@ singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk S
 
 
 # check how many variants were removed by site-level filtering in the vcf
-bcftools view -H FusVen.raw.snps.vcf.gz | wc -l # 2,274,351
-bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,227,569
+bcftools view -H FusVen.raw.snps.vcf.gz | wc -l # 2,255,743 (haploid called) 2,274,351 (diploid called)
+bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,214,790 (haploid called) 2,227,569 (diploid called)
 
 # then check how many indels were removed by filtering
-bcftools view -H FusVen.raw.indels.vcf.gz | wc -l # 238,651
-bcftools view -H FusVen.raw.indels.filtered.vcf.gz | wc -l # 237,897
+bcftools view -H FusVen.raw.indels.vcf.gz | wc -l # 234,474 (haploid called) 238,651 (diploid called)
+bcftools view -H FusVen.raw.indels.filtered.vcf.gz | wc -l # 234,296 (haploid called) 237,897 (diploid called)
 
 
 
