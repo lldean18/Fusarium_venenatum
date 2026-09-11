@@ -73,21 +73,11 @@ bcftools view -h FusVen.raw.snps.SF.vcf.gz | grep -E 'ID=(QD|MQ|FS|SOR|MQRankSum
 bcftools +setGT \
     FusVen.raw.snps.SF.vcf.gz \
     -Oz \
-    -o FusVen.raw.snps.SF.GF1set.vcf.gz \
+    -o FusVen.raw.snps.SF.GFset.vcf.gz \
     -- \
     -t q \
     -n . \
     -i 'FMT/DP<10 || FMT/GQ<20'
-bcftools index -t FusVen.raw.snps.SF.GF1set.vcf.gz
-
-# set heterozygotes to missing if their allele counts are statistically inconsistent with a 50:50 expectation at P <0.05.
-bcftools +setGT \
-    FusVen.raw.snps.SF.GF1set.vcf.gz \
-    -Oz \
-    -o FusVen.raw.snps.SF.GFset.vcf.gz \
-    -- \
-    -t 'b:AD<0.05' \
-    -n .
 bcftools index -t FusVen.raw.snps.SF.GFset.vcf.gz
 
 # reset the missingness tags
@@ -107,11 +97,7 @@ bcftools view \
 bcftools index -t FusVen.snps.filtered.vcf.gz
 
 # check how many variants were filtered out by genotype-filtering
-bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,227,569
-bcftools view -H FusVen.snps.filtered.vcf.gz | wc -l # 1,709,395
-
-# remove the unecessary intermediate files
-rm FusVen.raw.snps.SF.GFset.vcf.gz*
-rm FusVen.raw.snps.SF.GF1set.vcf.gz*
+bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,214,790 (for the haploid called) 2,227,569 (diploid called)
+bcftools view -H FusVen.snps.filtered.vcf.gz | wc -l # 387,583 (for the haploid called) 1,709,395 (diploid called)
 
 
