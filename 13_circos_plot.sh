@@ -6,7 +6,7 @@
 # move to working dir
 cd /gpfs01/home/mbzlld/data/paul_dyer
 mkdir -p circos
-cd circos
+cd /gpfs01/home/mbzlld/data/paul_dyer/circos
 
 # setup env
 source $HOME/.bash_profile
