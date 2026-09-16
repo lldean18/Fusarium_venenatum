@@ -54,7 +54,7 @@ mkdir -p $genome_identifier/bams/bam_info
 
 # extract information about the sequencing from the fastq headers
 # Extract the header line of the fastq file
-file_info=$(zcat $fwd_reads | head -n 1)
+file_info=$(zcat fastqs/$fwd_reads | head -n 1)
 
 # Save the pieces of information you need as variables
 flowcell_ID=$(cut -d ":" -f3 <<< "$file_info")
