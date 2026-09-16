@@ -9,7 +9,9 @@ mkdir -p circos
 cd /gpfs01/home/mbzlld/data/paul_dyer/circos
 
 # setup env
+srun --partition defq --cpus-per-task 4 --mem 20g --time 08:00:00 --pty bash
 source $HOME/.bash_profile
+cd /gpfs01/home/mbzlld/data/paul_dyer/circos
 conda activate circos
 
 #####################
