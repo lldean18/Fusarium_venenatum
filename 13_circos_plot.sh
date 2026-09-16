@@ -20,7 +20,11 @@ conda activate circos
 
 # convert assembly to the right format
 assembly=../reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-awk '{print "chr - " $1 " " $1 " 0 " $2 " chr1"}' ${assembly}.fai > karyotype.txt
+# before naming the chrs with their chr names
+#awk '{print "chr - " $1 " " $1 " 0 " $2 " chr1"}' ${assembly}.fai > karyotype.txt
+
+awk 'NR==FNR {map[$1]=$2; next}
+     {print "chr - " $1 " " map[$1] " 0 " $2 " chr1"}' chr_names_mapping_info.txt ${assembly}.fai > karyotype.txt
 
 
 ##############################
