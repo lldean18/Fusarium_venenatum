@@ -4,7 +4,8 @@
 # merge the per site depth calculations to give overall depth per individual
 
 # move to the working directory
-cd ~/data/paul_dyer
+genome_identifier=Fusven1
+cd ~/data/paul_dyer/$genome_identifier
 
 # copy all the depth statistics to a single file
 cat filtered_bams/bam_info/*_mapping_cov_depth.txt > filtered_bams/bam_info/per_ind_coverage_depth.txt
