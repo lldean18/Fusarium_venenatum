@@ -25,13 +25,15 @@ echo "filtering mapped reads for sample $SAMPLE"
 module load singularity/3.8.5
 #cd ~/software_bin/singularity
 #singularity build gatk.sif docker://broadinstitute/gatk:latest
-mkdir -p ~/data/paul_dyer/variants
-cd ~/data/paul_dyer
-WKDIR=/gpfs01/home/mbzlld/data/paul_dyer
+genome_identifier=Fusven1
+mkdir -p ~/data/paul_dyer/$genome_identifier/variants
+cd ~/data/paul_dyer/$genome_identifier
+WKDIR=/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier
 
 
 # index the reference
 #singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk CreateSequenceDictionary -R reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk CreateSequenceDictionary -R reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
 
 
 singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk HaplotypeCaller \
