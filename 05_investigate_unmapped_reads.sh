@@ -6,7 +6,8 @@
 # setup env
 srun --partition defq --cpus-per-task 8 --mem 20g --time 07:00:00 --pty bash
 source $HOME/.bash_profile
-cd /gpfs01/home/mbzlld/data/paul_dyer/bams
+genome_identifier=Fusven1
+cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams
 
 
 # extract the unmapped reads and convert back to fastqs

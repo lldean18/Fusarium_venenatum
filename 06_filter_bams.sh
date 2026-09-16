@@ -15,6 +15,7 @@
 
 # move to working directory
 cd ~/data/paul_dyer
+genome_identifier=Fusven1
 
 # set the config file (script make_array_configs.sh gives instructions on making the config)
 CONFIG=~/code_and_scripts/config_files/fusarium_config.txt
@@ -29,8 +30,8 @@ source $HOME/.bash_profile
 conda activate samtools1.24
 
 # make a dir for the mapped bams and one for info
-mkdir -p filtered_bams
-mkdir -p filtered_bams/bam_info
+mkdir -p $genome_identifier/filtered_bams
+mkdir -p $genome_identifier/filtered_bams/bam_info
 
 
 #######################
@@ -46,19 +47,19 @@ samtools view \
 -q 40 \
 -f 2 \
 -F 2308 \
--b bams/$SAMPLE.bam |
+-b $genome_identifier/bams/$SAMPLE.bam |
 # Mark and remove duplicate reads (again)
 samtools markdup \
 -r \
 --threads 16 \
-- filtered_bams/$SAMPLE.bam
+- $genome_identifier/filtered_bams/$SAMPLE.bam
 
 # index the final bam file
-samtools index --threads 16 filtered_bams/$SAMPLE.bam
+samtools index --threads 16 $genome_identifier/filtered_bams/$SAMPLE.bam
 
 # Generate info about how well the reads mapped
-echo "the filtered reads were mapped with the following success:" > filtered_bams/bam_info/${SAMPLE}_filtered_mapping_info.txt
-samtools flagstat --threads 16 filtered_bams/$SAMPLE.bam >> filtered_bams/bam_info/${SAMPLE}_filtered_mapping_info.txt
+echo "the filtered reads were mapped with the following success:" > $genome_identifier/filtered_bams/bam_info/${SAMPLE}_filtered_mapping_info.txt
+samtools flagstat --threads 16 $genome_identifier/filtered_bams/$SAMPLE.bam >> $genome_identifier/filtered_bams/bam_info/${SAMPLE}_filtered_mapping_info.txt
 
 # deactivate software
 conda deactivate
