@@ -32,7 +32,10 @@ rev_reads=${IDENTIFIER}_2.clean.fq.gz
 
 # set the reference genome that we will map the reads to
 # the reference must be indexed with the bwa index command once before running this script
-ref=reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna.gz
+#ref=reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna.gz
+#genome_identifier=ASM90000737v1
+ref=reference_genomes/GCF_020744135.1_Fusven1_genomic.fna.gz
+genome_identifier=Fusven1
 
 # load software
 source $HOME/.bash_profile
@@ -41,13 +44,27 @@ module load bwa-uoneasy/0.7.17-GCCcore-12.3.0
 module load picard-uoneasy/3.0.0-Java-17
 
 # make a dir for the mapped bams and one for info
-mkdir -p bams
-mkdir -p bams/bam_info
+mkdir -p $genome_identifier/bams
+mkdir -p $genome_identifier/bams/bam_info
 
 
 #####################################
 # MAP READS TO THE REFERENCE GENOME #
 #####################################
+
+# extract information about the sequencing from the fastq headers
+# Extract the header line of the fastq file
+file_info=$(zcat $fwd_reads | head -n 1)
+
+# Save the pieces of information you need as variables
+flowcell_ID=$(cut -d ":" -f3 <<< "$file_info")
+lane_no=$(cut -d ":" -f4 <<< "$file_info")
+sample_barcode=$(cut -d ":" -f10 <<< "$file_info")
+
+# store the read group information for the ID and PU fields as variables from the individual ones you just created
+PU=$flowcell_ID.$lane_no.$sample_barcode
+ID=$flowcell_ID.$lane_no
+
 
 ###### Align the reads to the reference genome using bwa mem ######
 # BWA MEM command explanation:
@@ -56,15 +73,15 @@ mkdir -p bams/bam_info
 bwa mem \
 -t 19 \
 -M \
--R "@RG\tID:"$SAMPLE"\tSM:"$SAMPLE"\tPL:ILLUMINA\tLB:"$SAMPLE"\tPU:"$SAMPLE"" \
+-R "@RG\tID:"$ID"\tSM:"$SAMPLE"\tPL:ILLUMINA\tLB:"$SAMPLE"\tPU:"$PU"" \
 $ref \
 fastqs/$fwd_reads \
 fastqs/$rev_reads |
 # add mate score tags then
 # sort and index the bam files
 samtools fixmate --threads 19 -m -O BAM - - |
-samtools sort --threads 19 -o bams/${SAMPLE}_tmp.bam
-samtools index bams/${SAMPLE}_tmp.bam
+samtools sort --threads 19 -o $genome_identifier/bams/${SAMPLE}_tmp.bam
+samtools index $genome_identifier/bams/${SAMPLE}_tmp.bam
 
 # remove pcr duplicaltes with picard
 java -Xmx1g -jar $EBROOTPICARD/picard.jar \
@@ -73,21 +90,21 @@ REMOVE_DUPLICATES=true \
 ASSUME_SORTED=true \
 VALIDATION_STRINGENCY=SILENT \
 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 \
-INPUT=bams/${SAMPLE}_tmp.bam \
-OUTPUT=bams/${SAMPLE}.bam \
-METRICS_FILE=bams/bam_info/${SAMPLE}.rmd.bam.metrics
+INPUT=$genome_identifier/bams/${SAMPLE}_tmp.bam \
+OUTPUT=$genome_identifier/bams/${SAMPLE}.bam \
+METRICS_FILE=$genome_identifier/bams/bam_info/${SAMPLE}.rmd.bam.metrics
 
 # index the final bam file
-samtools index bams/${SAMPLE}.bam
+samtools index $genome_identifier/bams/${SAMPLE}.bam
 
 # remove the temp file with duplicates not removed
-rm bams/${SAMPLE}_tmp.bam*
+rm $genome_identifier/bams/${SAMPLE}_tmp.bam*
 
 
 
 # Generate info about how well the reads mapped
-echo "the reads mapped with the following success:" > bams/bam_info/${SAMPLE}_mapping_info.txt
-samtools flagstat --threads 19 bams/$SAMPLE.bam >> bams/bam_info/${SAMPLE}_mapping_info.txt
+echo "the reads mapped with the following success:" > $genome_identifier/bams/bam_info/${SAMPLE}_mapping_info.txt
+samtools flagstat --threads 19 bams/$SAMPLE.bam >> $genome_identifier/bams/bam_info/${SAMPLE}_mapping_info.txt
 
 # deactivate software
 conda deactivate
