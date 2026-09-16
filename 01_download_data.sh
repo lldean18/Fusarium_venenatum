@@ -64,6 +64,18 @@ gunzip -k GCF_900007375.1_ASM90000737v1_genomic.gff.gz
 
 
 
+# the alternate reference assembly was downloaded from NCBI using:
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/020/744/135/GCF_020744135.1_Fusven1/GCF_020744135.1_Fusven1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/020/744/135/GCF_020744135.1_Fusven1/GCF_020744135.1_Fusven1_genomic.gff.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/020/744/135/GCF_020744135.1_Fusven1/GCF_020744135.1_Fusven1_genomic.gtf.gz
+
+# and extracted with:
+gunzip -k GCF_020744135.1_Fusven1_genomic.fna.gz
+gunzip -k GCF_020744135.1_Fusven1_genomic.gtf.gz
+gunzip -k GCF_020744135.1_Fusven1_genomic.gff.gz
+
+
+
 
 
 
