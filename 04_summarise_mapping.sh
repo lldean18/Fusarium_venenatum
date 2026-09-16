@@ -2,9 +2,10 @@
 # 8/9/26
 
 # script to summarise mapping success
+genome_identifier=Fusven1
 
-cd ~/data/paul_dyer/bams/bam_info
-cd ~/data/paul_dyer/filtered_bams/bam_info
+cd ~/data/paul_dyer/$genome_identifier/bams/bam_info
+cd ~/data/paul_dyer/$genome_identifier/filtered_bams/bam_info
 
 {
 printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
