@@ -9,8 +9,9 @@ module load bcftools-uoneasy/1.19-GCC-13.2.0
 module load singularity/3.8.5
 #cd ~/software_bin/singularity
 #singularity build gatk.sif docker://broadinstitute/gatk:latest
-WKDIR=/gpfs01/home/mbzlld/data/paul_dyer/variants
-cd /gpfs01/home/mbzlld/data/paul_dyer/variants
+genome_identifier=Fusven1
+WKDIR=/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
+cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
 
 
 ####################################################
@@ -53,12 +54,12 @@ singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk S
 
 
 # check how many variants were removed by site-level filtering in the vcf
-bcftools view -H FusVen.raw.snps.vcf.gz | wc -l # 2,255,743 (haploid called) 2,274,351 (diploid called)
-bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,214,790 (haploid called) 2,227,569 (diploid called)
+bcftools view -H FusVen.raw.snps.vcf.gz | wc -l # 2,252,872
+bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,211,601
 
 # then check how many indels were removed by filtering
-bcftools view -H FusVen.raw.indels.vcf.gz | wc -l # 234,474 (haploid called) 238,651 (diploid called)
-bcftools view -H FusVen.raw.indels.filtered.vcf.gz | wc -l # 234,296 (haploid called) 237,897 (diploid called)
+bcftools view -H FusVen.raw.indels.vcf.gz | wc -l # 233,973
+bcftools view -H FusVen.raw.indels.filtered.vcf.gz | wc -l # 233,783
 
 
 
@@ -110,6 +111,7 @@ bcftools index -t FusVen.snps.filtered.vcf.gz
 
 # check how many variants were filtered out by genotype-filtering
 bcftools view -H FusVen.raw.snps.SF.vcf.gz | wc -l # 2,214,790 (for the haploid called) 2,227,569 (diploid called)
-bcftools view -H FusVen.snps.filtered.vcf.gz | wc -l # 2,018,836new 387,583old (for the haploid called) 1,709,395 (diploid called)
-
+# for the fusven1 assembly: 2,211,601
+bcftools view -H FusVen.snps.filtered.vcf.gz | wc -l # 2,018,836 (for the haploid called) 1,709,395 (diploid called)
+# for the fusven1 assembly: 2,132,397
 
