@@ -15,7 +15,8 @@
 #SBATCH --array=1-27
 
 # move to working dir
-cd ~/data/paul_dyer
+genome_identifier=Fusven1
+cd ~/data/paul_dyer/$genome_identifier
 
 # set the config file (script make_array_configs.sh gives instructions on making the config)
 CONFIG=~/code_and_scripts/config_files/fusarium_config.txt
