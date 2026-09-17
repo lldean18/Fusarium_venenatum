@@ -27,19 +27,19 @@ module load singularity/3.8.5
 #singularity build gatk.sif docker://broadinstitute/gatk:latest
 genome_identifier=Fusven1
 mkdir -p ~/data/paul_dyer/$genome_identifier/variants
-cd ~/data/paul_dyer/$genome_identifier
-WKDIR=/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier
+cd ~/data/paul_dyer
+WKDIR=/gpfs01/home/mbzlld/data/paul_dyer
 
 
 # index the reference
 #singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk CreateSequenceDictionary -R reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk CreateSequenceDictionary -R reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
+#singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk CreateSequenceDictionary -R reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
 
 
 singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk HaplotypeCaller \
---input filtered_bams/$SAMPLE.bam \
---output variants/$SAMPLE.g.vcf.gz \
---reference reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna \
+--input $genome_identifier/filtered_bams/$SAMPLE.bam \
+--output $genome_identifier/variants/$SAMPLE.g.vcf.gz \
+--reference reference_genomes/GCF_020744135.1_Fusven1_genomic.fna \
 --emit-ref-confidence GVCF \
 --native-pair-hmm-threads 16 \
 --ploidy 1
