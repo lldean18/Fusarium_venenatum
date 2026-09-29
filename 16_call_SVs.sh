@@ -15,16 +15,19 @@
 
 
 # setup env
+source $HOME/.bash_profile
+conda activate r
 mkdir -p ~/data/paul_dyer/variants/SVs
 cd ~/data/paul_dyer/variants/SVs
+
 
 # set variables
 reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
 genome_identifier=ASM90000737v1
 ##reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
 ##genome_identifier=Fusven1
-suffix=
-#suffix=_venenatum_only
+#suffix=
+suffix=_venenatum_only
 
 
 # run structural variant detection

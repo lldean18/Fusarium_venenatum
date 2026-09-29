@@ -9,10 +9,10 @@ source $HOME/.bash_profile
 conda activate circos
 
 # move to working dir
-#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-#genome_identifier=ASM90000737v1
-reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
-genome_identifier=Fusven1
+reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+genome_identifier=ASM90000737v1
+#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
+#genome_identifier=Fusven1
 mkdir -p /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos
 
