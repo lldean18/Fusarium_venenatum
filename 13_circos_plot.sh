@@ -21,13 +21,14 @@ cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos
 ### PREP ASSEMBLY ###
 #####################
 
-# convert assembly to the right format
-# without naming the chrs with their chr names
-awk '{print "chr - " $1 " " $1 " 0 " $2 " chr1"}' ${reference}.fai > karyotype.txt
-
-# for the ASM90000737v1 assembly, extract chromosome names for plotting
-awk 'NR==FNR {map[$1]=$2; next}
-     {print "chr - " $1 " " map[$1] " 0 " $2 " chr1"}' chr_names_mapping_info.txt ${reference}.fai > karyotype.txt
+# hashing it out because I had to maunally adjust the order of chrs in the karyotype file as this is the order they are plotted in
+##  # convert assembly to the right format
+##  # without naming the chrs with their chr names
+##  awk '{print "chr - " $1 " " $1 " 0 " $2 " chr1"}' ${reference}.fai > karyotype.txt
+##  
+##  # for the ASM90000737v1 assembly, extract chromosome names for plotting
+##  awk 'NR==FNR {map[$1]=$2; next}
+##       {print "chr - " $1 " " map[$1] " 0 " $2 " chr1"}' chr_names_mapping_info.txt ${reference}.fai > karyotype.txt
 
 
 ##############################
