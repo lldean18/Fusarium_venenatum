@@ -52,6 +52,10 @@ awk '{
     print $1 "\t" $2 "\t" sum
 }' site-level_depth${suffix}.txt > summed_site-level_depth${suffix}.txt
 
+# finally check how may sites are uncallable:
+awk '$3 == 0' summed_site-level_depth_venenatum_only.txt | wc -l
+# 1,064,842 for ASM90000737v1 _venenatum_only
+
 
 
 
