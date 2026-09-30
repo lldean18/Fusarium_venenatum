@@ -26,48 +26,31 @@ bedtools makewindows -g $reference.fai -w 20000 > snp_density/windows_20kb.bed
 # count n snps / n callable bases in windows #
 ##############################################
 
-
-# extract snp positions only
-bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\n' variants/FusVen$suffix.raw.vcf.gz |
-awk 'length($3)==1 && length($4)==1 && $4 !~ /,/ {
-    print $1"\t"$2-1"\t"$2
-}' |
-sort -k1,1 -k2,2n > snp_density/snps$suffix.bed
-
-# Count SNPs in each window
-bedtools intersect \
+# count snps in each window
+bedtools coverage \
 -a snp_density/windows_20kb.bed \
--b snp_density/snps$suffix.bed \
--c > snp_density/snp_counts_20kb$suffix.txt
+-b variants/FusVen$suffix.snps.filtered.vcf.gz \
+-counts > snp_density/snp_counts_20kb_winds$suffix.txt
 
-bcftools query -f '%CHROM\t%POS\n' variants/FusVen$suffix.raw.vcf.gz |
-awk '{print $1"\t"$2-1"\t"$2}' |
-sort -k1,1 -k2,2n > snp_density/callable$suffix.bed
-
-bedtools intersect \
+# count callable bases in each window
+bedtools map \
 -a snp_density/windows_20kb.bed \
--b snp_density/callable$suffix.bed \
--c > snp_density/callable_counts_20kb$suffix.txt
+-b filtered_bams/bam_info/callable_sites_with_summed_site-level_depth$suffix.bed \
+-c 4 \
+-o count \
+> snp_density/callable_sites${suffix}_20kb.bed
 
-paste \
-    snp_density/snp_counts_20kb$suffix.txt \
-    snp_density/callable_counts_20kb$suffix.txt |
-awk 'BEGIN {
-    OFS="\t";
-    print "chrom","start","end","n_snps","callable_bases","snp_density"
-}
-{
-    callable=$7;
-    snps=$4;
-    if (callable > 0)
-        density=snps/callable;
-    else
-        density="NA";
-    print $1,$2,$3,snps,callable,density;
-}' > snp_density/snp_density_20kb$suffix.txt
+# divide snps by callable bases to get true snp density
+awk 'NR==FNR { callable[$1 FS $2 FS $3]=$4; next }
+     { key=$1 FS $2 FS $3;
+       if (callable[key] > 0)
+           printf "%s\t%s\t%s\t%.10f\n",$1,$2,$3,$4/callable[key];
+       else
+           print $1,$2,$3,"NA" }' \
+    OFS="\t" snp_density/callable_sites${suffix}_20kb.bed \
+    snp_density/snp_counts_20kb_winds$suffix.txt \
+    > snp_density/snp_DENSITY_20kb_winds$suffix.txt
 
-# correct format for circos
-sed '1d' snp_density/snp_density_20kb$suffix.txt | cut -f1,2,3,6 > snp_density/for_circos_snp_density_20kb$suffix.txt
 
 #######################
 # count snps in windows
