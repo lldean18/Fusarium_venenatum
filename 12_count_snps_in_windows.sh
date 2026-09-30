@@ -88,5 +88,29 @@ bedtools coverage \
     > snp_density/gene_counts_20kb_winds.txt
 
 
+################3###############################
+# count n indels / n callable bases in windows #
+################################################
+
+# count snps in each window
+bedtools coverage \
+-a snp_density/windows_20kb.bed \
+-b variants/FusVen$suffix.raw.indels.filtered.vcf.gz \
+-counts > snp_density/indel_counts_20kb_winds$suffix.txt
+
+# divide indels by callable bases to get true indel density
+awk 'NR==FNR { callable[$1 FS $2 FS $3]=$4; next }
+     { key=$1 FS $2 FS $3;
+       if (callable[key] > 0)
+           printf "%s\t%s\t%s\t%.10f\n",$1,$2,$3,$4/callable[key];
+       else
+           print $1,$2,$3,"NaN" }' \
+    OFS="\t" snp_density/callable_sites${suffix}_20kb.bed \
+    snp_density/indel_counts_20kb_winds$suffix.txt \
+    > snp_density/indel_DENSITY_20kb_winds$suffix.txt
+
+# delete lines containing NA (i.e. where no bases could be called)
+sed -i '/NaN/d' snp_density/indel_DENSITY_20kb_winds$suffix.txt
+
 
 
