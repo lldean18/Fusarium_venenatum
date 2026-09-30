@@ -46,11 +46,13 @@ awk 'NR==FNR { callable[$1 FS $2 FS $3]=$4; next }
        if (callable[key] > 0)
            printf "%s\t%s\t%s\t%.10f\n",$1,$2,$3,$4/callable[key];
        else
-           print $1,$2,$3,"NA" }' \
+           print $1,$2,$3,"NaN" }' \
     OFS="\t" snp_density/callable_sites${suffix}_20kb.bed \
     snp_density/snp_counts_20kb_winds$suffix.txt \
     > snp_density/snp_DENSITY_20kb_winds$suffix.txt
 
+# delete lines containing NA (i.e. where no bases could be called)
+sed -i '/NaN/d' snp_density/snp_DENSITY_20kb_winds$suffix.txt
 
 #######################
 # count snps in windows
