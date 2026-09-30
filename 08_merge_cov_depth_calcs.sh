@@ -53,9 +53,10 @@ awk '{
 }' site-level_depth${suffix}.txt > summed_site-level_depth${suffix}.bed
 
 # finally check how may sites are uncallable:
-awk '$4 == 0' summed_site-level_depth_venenatum_only.bed | wc -l
+awk '$4 == 0' summed_site-level_depth$suffix.bed | wc -l
 # 1,064,842 for ASM90000737v1 _venenatum_only
 
-
+# and finally finally, remove the uncallable sites from the bed file
+awk '$4 > 0 {print $1"\t"$2"\t"$3"\t"$4}' summed_site-level_depth$suffix.bed > callable_sites_with_summed_site-level_depth$suffix.bed
 
 
