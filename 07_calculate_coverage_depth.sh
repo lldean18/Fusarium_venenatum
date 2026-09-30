@@ -15,7 +15,8 @@
 #SBATCH --array=1-27
 
 # move to working dir
-genome_identifier=Fusven1
+#genome_identifier=Fusven1
+genome_identifier=ASM90000737v1
 cd ~/data/paul_dyer/$genome_identifier
 
 # set the config file (script make_array_configs.sh gives instructions on making the config)
@@ -33,13 +34,16 @@ conda activate samtools1.24
 # CALCULATE COVERAGE DEPTH FOR EACH SAMPLE #
 ############################################
 
-# calculate depth for all bams
-samtools depth \
--a \
--J \
--H \
-filtered_bams/$SAMPLE.bam |
-awk -F '\t' '(NR==1) {split($0,header);N=0.0;next;} {N++;for(i=3;i<=NF;i++) a[i]+=int($i);} END { for(x in a) print header[x], a[x]/N;}' > filtered_bams/bam_info/${SAMPLE}_mapping_cov_depth.txt
+##  # calculate mean depth of coverage across the whole genome for each individual
+##  samtools depth \
+##  -a \
+##  -J \
+##  -H \
+##  filtered_bams/$SAMPLE.bam |
+##  awk -F '\t' '(NR==1) {split($0,header);N=0.0;next;} {N++;for(i=3;i<=NF;i++) a[i]+=int($i);} END { for(x in a) print header[x], a[x]/N;}' > filtered_bams/bam_info/${SAMPLE}_mapping_cov_depth.txt
+
+# calculate depth of coverage at every site for each individual
+samtools depth -aa filtered_bams/$SAMPLE.bam > filtered_bams/bam_info/${SAMPLE}_site-level_mapping_cov_depth.txt
 
 
 # unload software
