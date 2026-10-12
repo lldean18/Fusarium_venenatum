@@ -10,7 +10,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=40g
-#SBATCH --time=48:00:00
+#SBATCH --time=72:00:00
 #SBATCH --output=/gpfs01/home/mbzlld/code_and_scripts/slurm_out_scripts/slurm-%x-%j.out
 
 
@@ -36,6 +36,7 @@ suffix=_venenatum_only
 --jar /gpfs01/home/mbzlld/software_bin/gridss/gridss-2.13.2-gridss-jar-with-dependencies.jar \
 --reference $reference \
 --output Fusven_SVs$suffix \
+--steps call \
 --threads 16 \
 /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-1.bam \
 /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-2.bam \
