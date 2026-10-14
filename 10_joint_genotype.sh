@@ -19,37 +19,30 @@ module load singularity/3.8.5
 #singularity build gatk.sif docker://broadinstitute/gatk:latest
 cd ~/data/paul_dyer
 WKDIR=/gpfs01/home/mbzlld/data/paul_dyer
+##  reference=GCF_900007375.1_ASM90000737v1_genomic.fna
+##  genome_identifier=ASM90000737v1
+##  reference=GCF_020744135.1_Fusven1_genomic.fna
+##  genome_identifier=Fusven1
+
+##  # running for the filtered subset of venenatum only individuals
+##  reference=GCF_900007375.1_ASM90000737v1_genomic.fna
+##  genome_identifier=ASM90000737v1
+##  suffix=_venenatum_only
+
+# Running for the 4 individuals alone that are a different species
 reference=GCF_900007375.1_ASM90000737v1_genomic.fna
 genome_identifier=ASM90000737v1
-##reference=GCF_020744135.1_Fusven1_genomic.fna
-##genome_identifier=Fusven1
-suffix=_venenatum_only
+suffix=_4_diff_species
 
 
 # consolidate gvcfs into a database
 echo "MAKING THE DATABASE"
 singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk GenomicsDBImport \
 --genomicsdb-workspace-path $genome_identifier/variants/FusariumDB$suffix \
---variant $genome_identifier/variants/114-1.g.vcf.gz \
---variant $genome_identifier/variants/114-2.g.vcf.gz \
---variant $genome_identifier/variants/114-3.g.vcf.gz \
---variant $genome_identifier/variants/114-4.g.vcf.gz \
---variant $genome_identifier/variants/114-5.g.vcf.gz \
---variant $genome_identifier/variants/114-6.g.vcf.gz \
---variant $genome_identifier/variants/114-7.g.vcf.gz \
---variant $genome_identifier/variants/114-8.g.vcf.gz \
---variant $genome_identifier/variants/114-9.g.vcf.gz \
---variant $genome_identifier/variants/114-12.g.vcf.gz \
---variant $genome_identifier/variants/114-13.g.vcf.gz \
---variant $genome_identifier/variants/114-14.g.vcf.gz \
---variant $genome_identifier/variants/114-15.g.vcf.gz \
---variant $genome_identifier/variants/114-16.g.vcf.gz \
---variant $genome_identifier/variants/114-17.g.vcf.gz \
---variant $genome_identifier/variants/114-18.g.vcf.gz \
---variant $genome_identifier/variants/114-20.g.vcf.gz \
---variant $genome_identifier/variants/114-21.g.vcf.gz \
---variant $genome_identifier/variants/114-22.g.vcf.gz \
---variant $genome_identifier/variants/114-25.g.vcf.gz \
+--variant $genome_identifier/variants/114-10.g.vcf.gz \
+--variant $genome_identifier/variants/114-11.g.vcf.gz \
+--variant $genome_identifier/variants/114-23.g.vcf.gz \
+--variant $genome_identifier/variants/114-24.g.vcf.gz \
 --reference reference_genomes/$reference \
 --intervals NC_038015.1 \
 --intervals NC_038016.1 \
@@ -81,8 +74,36 @@ echo "FINISHED MAKING THE DATABASE"
 # --intervals NW_027072136.1 \
 # --intervals NW_027072137.1 \
 
-# all possible individuals to retain in SNP calling that are named 114- something
+# the four indivuals to be called separately as they are likely a different species
+# --variant $genome_identifier/variants/114-10.g.vcf.gz \
+# --variant $genome_identifier/variants/114-11.g.vcf.gz \
+# --variant $genome_identifier/variants/114-23.g.vcf.gz \
+# --variant $genome_identifier/variants/114-24.g.vcf.gz \
 
+# all _venenatum_only individuals
+# --variant $genome_identifier/variants/114-1.g.vcf.gz \
+# --variant $genome_identifier/variants/114-2.g.vcf.gz \
+# --variant $genome_identifier/variants/114-3.g.vcf.gz \
+# --variant $genome_identifier/variants/114-4.g.vcf.gz \
+# --variant $genome_identifier/variants/114-5.g.vcf.gz \
+# --variant $genome_identifier/variants/114-6.g.vcf.gz \
+# --variant $genome_identifier/variants/114-7.g.vcf.gz \
+# --variant $genome_identifier/variants/114-8.g.vcf.gz \
+# --variant $genome_identifier/variants/114-9.g.vcf.gz \
+# --variant $genome_identifier/variants/114-12.g.vcf.gz \
+# --variant $genome_identifier/variants/114-13.g.vcf.gz \
+# --variant $genome_identifier/variants/114-14.g.vcf.gz \
+# --variant $genome_identifier/variants/114-15.g.vcf.gz \
+# --variant $genome_identifier/variants/114-16.g.vcf.gz \
+# --variant $genome_identifier/variants/114-17.g.vcf.gz \
+# --variant $genome_identifier/variants/114-18.g.vcf.gz \
+# --variant $genome_identifier/variants/114-20.g.vcf.gz \
+# --variant $genome_identifier/variants/114-21.g.vcf.gz \
+# --variant $genome_identifier/variants/114-22.g.vcf.gz \
+# --variant $genome_identifier/variants/114-25.g.vcf.gz \
+
+
+# all possible individuals to retain in SNP calling that are named 114- something
 # --variant $genome_identifier/variants/114-1.g.vcf.gz \
 # --variant $genome_identifier/variants/114-2.g.vcf.gz \
 # --variant $genome_identifier/variants/114-3.g.vcf.gz \
@@ -117,10 +138,10 @@ singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk G
 --variant gendb://$genome_identifier/variants/FusariumDB$suffix \
 --annotation-group StandardAnnotation \
 --annotation-group StandardHCAnnotation \
---include-non-variant-sites true \
 --call-genotypes true
 echo "FINIHSED JOINT GENOTYPE CALLING"
 
+#--include-non-variant-sites true \
 
 #singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk SelectVariants --help
 
