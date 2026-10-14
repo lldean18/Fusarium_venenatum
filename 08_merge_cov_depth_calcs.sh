@@ -23,13 +23,18 @@ sed -i 's@.*/@@' filtered_bams/bam_info/per_ind_coverage_depth.txt
 # for the site-level depth per ind #
 ####################################
 
-cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/filtered_bams/bam_info
 #genome_identifier=Fusven1
 genome_identifier=ASM90000737v1
-suffix=_venenatum_only
+#suffix=_venenatum_only
+suffix=_4_diff_species
+
+cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/filtered_bams/bam_info
 
 # set list of inds to work across
-inds=(114-1 114-2 114-3 114-4 114-5 114-6 114-7 114-8 114-9 114-12 114-13 114-14 114-15 114-16 114-17 114-18 114-20 114-21 114-22 114-25)
+# for _venenatum_only
+#inds=(114-1 114-2 114-3 114-4 114-5 114-6 114-7 114-8 114-9 114-12 114-13 114-14 114-15 114-16 114-17 114-18 114-20 114-21 114-22 114-25)
+# for _4_diff_species
+inds=(114-10 114-11 114-23 114-24)
 
 # create initial file of chr and site from first ind
 awk '{ print $1"\t"$2 }' 114-1_site-level_mapping_cov_depth.txt > site-level_depth${suffix}.txt
@@ -55,6 +60,7 @@ awk '{
 # finally check how may sites are uncallable:
 awk '$4 == 0' summed_site-level_depth$suffix.bed | wc -l
 # 1,064,842 for ASM90000737v1 _venenatum_only
+# 4,596,591 for ASM90000737v1 _4_
 
 # and finally finally, remove the uncallable sites from the bed file
 awk '$4 > 0 {print $1"\t"$2"\t"$3"\t"$4}' summed_site-level_depth$suffix.bed > callable_sites_with_summed_site-level_depth$suffix.bed
