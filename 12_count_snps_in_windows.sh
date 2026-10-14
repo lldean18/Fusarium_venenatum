@@ -4,15 +4,31 @@
 # script to count SNPs in windows for plotting as a heatmap
 
 # setup env
+srun --partition defq --cpus-per-task 2 --mem 20g --time 03:00:00 --pty bash
+# ran fast enough to not really need srun to be fair
+source $HOME/.bash_profile
 module load bcftools-uoneasy/1.19-GCC-13.2.0
-reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-genome_identifier=ASM90000737v1
+
+# previously
+#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+#genome_identifier=ASM90000737v1
 #reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
 #genome_identifier=Fusven1
+#suffix=
+
+##  # for venenatum only
+##  reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+##  genome_identifier=ASM90000737v1
+##  suffix=_venenatum_only
+
+# for the four
+reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+genome_identifier=ASM90000737v1
+suffix=_4_diff_species
+
+# move to working directory and make output directory
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier
 mkdir -p snp_density
-#suffix=
-suffix=_venenatum_only
 
 # generate windows
 bedtools makewindows -g $reference.fai -w 100000 > snp_density/windows_100kb.bed
