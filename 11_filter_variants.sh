@@ -10,13 +10,16 @@ module load bcftools-uoneasy/1.19-GCC-13.2.0
 module load singularity/3.8.5
 #cd ~/software_bin/singularity
 #singularity build gatk.sif docker://broadinstitute/gatk:latest
+
 #genome_identifier=Fusven1
 genome_identifier=ASM90000737v1
+
 WKDIR=/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
-#suffix=
-suffix=_venenatum_only
 
+#suffix=
+#suffix=_venenatum_only
+suffix=_4_diff_species
 
 ###################################################################################
 # first if you have kept invariant sites in the original vcf remove the * entries #
@@ -67,12 +70,15 @@ singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk S
 
 # check how many variants were removed by site-level filtering in the vcf
 bcftools view -H FusVen$suffix.raw.snps.vcf.gz | wc -l # 2,252,872 # 139,025 _ven_only 
+# for the four: 1,222,771
 bcftools view -H FusVen$suffix.raw.snps.SF.vcf.gz | wc -l # 2,211,601 # 133,326 _ven_only
+# for the four: 1,197,696
 
 # then check how many indels were removed by filtering
 bcftools view -H FusVen$suffix.raw.indels.vcf.gz | wc -l # 233,973 # 9653 _ven_only
+# for the four: 107,801
 bcftools view -H FusVen$suffix.raw.indels.filtered.vcf.gz | wc -l # 233,783 # 9618 _ven_only
-
+# for the four: 107,768
 
 
 ##############################################
@@ -125,8 +131,12 @@ bcftools index -t FusVen$suffix.snps.filtered.vcf.gz
 bcftools view -H FusVen$suffix.raw.snps.SF.vcf.gz | wc -l # 2,214,790 (for the haploid called) 2,227,569 (diploid called)
 # for the fusven1 assembly: 2,211,601
 # for _ven_only: 133,326
+# for the four: 1,197,696
 bcftools view -H FusVen$suffix.snps.filtered.vcf.gz | wc -l # 2,018,836 (for the haploid called) 1,709,395 (diploid called)
 # for the fusven1 assembly: 2,132,397
 # for _ven_only: 103,374
+# for the four: 1,163,581
+
+
 
 
