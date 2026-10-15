@@ -29,7 +29,7 @@ cd ~/data/paul_dyer/$genome_identifier/variants/SVs
 #suffix=
 
 # for venenatum only
-suffix=_venenatum_only
+#suffix=_venenatum_only
 #list of bams
 # /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-1.bam \
 # /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-2.bam \
@@ -50,32 +50,23 @@ suffix=_venenatum_only
 # /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-20.bam \
 # /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-21.bam \
 # /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-22.bam \
-# /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-25.bam
+# /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-25.bam > breakdancer${suffix}.config
 
+# for the four other species only
+suffix=_4_diff_species
+# list of bams
+# /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-10.bam \
+# /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-11.bam \
+# /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-23.bam \
+# /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-24.bam > breakdancer${suffix}.config
 
 
 # prepare config file from bams for running breakdancer
 bam2cfg.pl \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-1.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-2.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-3.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-4.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-5.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-6.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-7.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-8.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-9.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-12.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-13.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-14.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-15.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-16.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-17.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-18.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-20.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-21.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-22.bam \
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-25.bam > breakdancer${suffix}.config
+/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-10.bam \
+/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-11.bam \
+/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-23.bam \
+/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/bams/114-24.bam > breakdancer${suffix}.config
 
 # run structural variant detection
 breakdancer-max breakdancer${suffix}.config > breakdancer_SVs$suffix.out
