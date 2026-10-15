@@ -4,7 +4,7 @@
 
 # script to detect structural variants from illumina short read data with gridss
 
-#SBATCH --job-name=gridss
+#SBATCH --job-name=breakdancer
 #SBATCH --partition=defq
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
