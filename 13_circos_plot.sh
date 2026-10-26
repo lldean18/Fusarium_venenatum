@@ -8,13 +8,20 @@ srun --partition defq --cpus-per-task 4 --mem 20g --time 08:00:00 --pty bash
 source $HOME/.bash_profile
 conda activate circos
 
-# move to working dir
-reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-genome_identifier=ASM90000737v1
-#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
-#genome_identifier=Fusven1
-mkdir -p /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos
-cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos
+# the newer reference that they are not using:
+reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
+genome_identifier=Fusven1
+
+## the older ref that they are using:
+#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+#genome_identifier=ASM90000737v1
+
+# the group of inds to be plotted
+suffix=_venenatum_only
+#suffix=_4_diff_species
+
+mkdir -p /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos$suffix
+cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos$suffix
 
 
 #####################
@@ -22,9 +29,28 @@ cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos
 #####################
 
 # hashing it out because I had to maunally adjust the order of chrs in the karyotype file as this is the order they are plotted in
+# I manually adjusted it to:
+#chr - NC_038013.1 chr2 0 9140027 chr1
+#chr - NC_038014.1 chr3 0 8341993 chr1
+#chr - NW_020311997.1 mitochondrion 0 78612 chr1
+#chr - NC_038015.1 chr4 0 9101081 chr1
+#chr - NC_038016.1 chr5 0 9545 chr1
+#chr - NC_038012.1 chr1 0 11988928 chr1
+
+# and for the FusVen1 assembly I manually adjusted it to:
+#chr - NW_027072130.1 chr2 0 9116532 chr
+#chr - NW_027072132.1 chr3 0 8083514 chr
+#chr - NW_027072131.1 chr4 0 8191346 chr
+#chr - NW_027072133.1 s5 0 22018 chr
+#chr - NW_027072134.1 s6 0 16791 chr
+#chr - NW_027072135.1 s7 0 5671 chr
+#chr - NW_027072136.1 s8 0 5056 chr
+#chr - NW_027072137.1 s9 0 1781 chr
+#chr - NW_027072129.1 chr1 0 12009896 chr
+
 ##  # convert assembly to the right format
 ##  # without naming the chrs with their chr names
-##  awk '{print "chr - " $1 " " $1 " 0 " $2 " chr1"}' ${reference}.fai > karyotype.txt
+##  awk '{print "chr - " $1 " " $1 " 0 " $2 " chr"}' ${reference}.fai > karyotype.txt
 ##  
 ##  # for the ASM90000737v1 assembly, extract chromosome names for plotting
 ##  awk 'NR==FNR {map[$1]=$2; next}
@@ -58,15 +84,27 @@ awk 'NR>1 {print $1, $2, $3, $5}' gc_content_20kb.txt > gc_track.txt
 # calculate mean GC content
 awk '{sum+=$4; n++} END {print sum/n}' gc_track.txt
 # 0.476912 = mean GC content of 1st ref
+# 0.476912 = mean GC content of 1st ref
 # 0.476331 = mean GC content of FusVen1
 # make a track with GC content centered around the mean
 awk -v mean=$(awk '{sum+=$4; n++} END {print sum/n}' gc_track.txt) '{print $1,$2,$3,$4-mean}' gc_track.txt > gc_dev.txt
 
+####################################
+### PREP STRUCTURAL VARIANT INFO ###
+####################################
+
+/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants/SVs/breakdancer_SVs$suffix.out
 
 #####################
 ### TO RUN CIRCOS ###
 #####################
 # make the circos.conf file stipulating how you want the plot to be then
+# copy the circos.conf
+cp /gpfs01/home/mbzlld/data/paul_dyer/ASM90000737v1/circos/ticks.conf ./
+cp /gpfs01/home/mbzlld/data/paul_dyer/ASM90000737v1/circos/circos.conf ./
+
+# if necessary edit the chromosome colours which are specified manually according to contig name in the circos.conf file
+
 # in the dir with the circos.conf file run:
 conda activate circos
 circos
