@@ -15,8 +15,8 @@
 #SBATCH --array=1-27
 
 # move to working dir
-#genome_identifier=Fusven1
-genome_identifier=ASM90000737v1
+genome_identifier=Fusven1
+#genome_identifier=ASM90000737v1
 cd ~/data/paul_dyer/$genome_identifier
 
 # set the config file (script make_array_configs.sh gives instructions on making the config)
