@@ -18,6 +18,8 @@ chromosomes_units = 1000000 # Mb
 # for Fusven1
 chromosomes_color = NW_027072133.1=black,NW_027072134.1=black,NW_027072135.1=black,NW_027072136.1=black,NW_027072137.1=black,NW_027072129.1=dyellow,NW_027072130.1=orange,NW_027072132.1=vdred,NW_027072131.1=vdpurple
 
+chromosomes_reverse = NW_027072129.1
+
 ########################################
 
 <ideogram>
