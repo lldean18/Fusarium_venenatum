@@ -113,11 +113,20 @@ bedtools coverage \
 # count n indels / n callable bases in windows #
 ################################################
 
-# count snps in each window
+# count indels in each window
 bedtools coverage \
 -a snp_density/windows_20kb.bed \
 -b variants/FusVen$suffix.raw.indels.filtered.vcf.gz \
 -counts > snp_density/indel_counts_20kb_winds$suffix.txt
+
+# count callable bases in each window
+bedtools map \
+-a snp_density/windows_20kb.bed \
+-b filtered_bams/bam_info/callable_sites_with_summed_site-level_depth$suffix.bed \
+-c 4 \
+-o count \
+> snp_density/callable_sites${suffix}_20kb.bed
+
 
 # divide indels by callable bases to get true indel density
 awk 'NR==FNR { callable[$1 FS $2 FS $3]=$4; next }
