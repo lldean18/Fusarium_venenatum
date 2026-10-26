@@ -3,23 +3,32 @@
 
 # script to filter raw variants
 
+#SBATCH --job-name=filter_variants
+#SBATCH --partition=defq
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=20g
+#SBATCH --time=4:00:00
+#SBATCH --output=/gpfs01/home/mbzlld/code_and_scripts/slurm_out_scripts/slurm-%x-%j.out
+
 #setup env
-srun --partition defq --cpus-per-task 4 --mem 20g --time 06:00:00 --pty bash
+#srun --partition defq --cpus-per-task 4 --mem 20g --time 06:00:00 --pty bash
 source $HOME/.bash_profile
 module load bcftools-uoneasy/1.19-GCC-13.2.0
 module load singularity/3.8.5
 #cd ~/software_bin/singularity
 #singularity build gatk.sif docker://broadinstitute/gatk:latest
 
-#genome_identifier=Fusven1
-genome_identifier=ASM90000737v1
+genome_identifier=Fusven1
+#genome_identifier=ASM90000737v1
 
 WKDIR=/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
 
 #suffix=
-#suffix=_venenatum_only
-suffix=_4_diff_species
+suffix=_venenatum_only
+#suffix=_4_diff_species
 
 ###################################################################################
 # first if you have kept invariant sites in the original vcf remove the * entries #
