@@ -21,10 +21,15 @@ module load bcftools-uoneasy/1.19-GCC-13.2.0
 ##  genome_identifier=ASM90000737v1
 ##  suffix=_venenatum_only
 
-# for the four
-reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-genome_identifier=ASM90000737v1
-suffix=_4_diff_species
+##  # for the four
+##  reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+##  genome_identifier=ASM90000737v1
+##  suffix=_4_diff_species
+
+# for venenatum only with the newer reference
+reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
+genome_identifier=Fusven1
+suffix=_venenatum_only
 
 # move to working directory and make output directory
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier
