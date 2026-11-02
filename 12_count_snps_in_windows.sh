@@ -21,15 +21,15 @@ module load bcftools-uoneasy/1.19-GCC-13.2.0
 ##  genome_identifier=ASM90000737v1
 ##  suffix=_venenatum_only
 
-##  # for the four
-##  reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-##  genome_identifier=ASM90000737v1
-##  suffix=_4_diff_species
+# for the four
+reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+genome_identifier=ASM90000737v1
+suffix=_4_diff_species
 
-# for venenatum only with the newer reference
-reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
-genome_identifier=Fusven1
-suffix=_venenatum_only
+##  # for venenatum only with the newer reference
+##  reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
+##  genome_identifier=Fusven1
+##  suffix=_venenatum_only
 
 # move to working directory and make output directory
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier
@@ -141,6 +141,63 @@ awk 'NR==FNR { callable[$1 FS $2 FS $3]=$4; next }
 
 # delete lines containing NA (i.e. where no bases could be called)
 sed -i '/NaN/d' snp_density/indel_DENSITY_20kb_winds$suffix.txt
+
+
+################################
+# Prepare SV data for plotting #
+################################
+
+# Create one Circos link file per SV type
+awk -v outdir="snp_density" -v suffix="$suffix" '
+BEGIN {
+    FS = "[[:space:]]+"
+}
+# Skip comment lines and column headers
+/^#/ { next }
+/^Chr1[[:space:]]/ { next }
+# Skip blank lines
+NF == 0 { next }
+{
+    chr1 = $1
+    pos1 = $2
+    chr2 = $4
+    pos2 = $5
+    type = $7
+    score = $9
+    # Check that the breakpoint coordinates are numeric
+    if (pos1 !~ /^[0-9]+$/ || pos2 !~ /^[0-9]+$/)
+        next
+    # Create a small interval around each breakpoint
+    start1 = pos1 - 1
+    end1   = pos1 + 1
+    start2 = pos2 - 1
+    end2   = pos2 + 1
+    # Prevent negative coordinates
+    if (start1 < 0) start1 = 0
+    if (start2 < 0) start2 = 0
+    # Assign a colour to each SV type
+    if (type == "DEL")
+        colour = "red"
+    else if (type == "INS")
+        colour = "blue"
+    else if (type == "INV")
+        colour = "green"
+    else if (type == "ITX")
+        colour = "orange"
+    else if (type == "CTX")
+        colour = "purple"
+    else
+        colour = "grey"
+    # Write a Circos link record
+    file = outdir "/SVs_" type suffix ".txt"
+    printf "%s\t%d\t%d\t%s\t%d\t%d\tcolor=%s\n", \
+        chr1, start1, end1, chr2, start2, end2, colour >> file
+}' variants/SVs/breakdancer_SVs$suffix.out
+
+
+
+
+
 
 
 
