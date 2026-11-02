@@ -1,0 +1,215 @@
+<<include etc/colors_fonts_patterns.conf>>
+<<include etc/housekeeping.conf>>
+<<include ticks.conf>>
+
+#my-heatmap-colours = yellow,dyellow,orange,dorange,dred,purple,dpurple
+
+<image>
+<<include etc/image.conf>>
+#file  = circos.png
+#radius = 1500p
+</image>
+
+karyotype = karyotype.txt
+chromosomes_units = 1000000 # Mb 
+
+# for ASM:
+chromosomes_color = NW_020311997.1=green,NC_038012.1=dyellow,NC_038013.1=orange,NC_038014.1=vdred,NC_038015.1=vdpurple
+
+########################################
+
+<ideogram>
+
+show_label       = yes
+label_font       = default 
+label_radius     = 1r + 120p
+label_size       = 40
+label_parallel   = yes
+
+<spacing>
+default = 0.005r
+</spacing>
+
+radius*    = 0.85r
+thickness = 40p
+fill      = yes
+stroke_color     = black
+stroke_thickness = 2p
+
+</ideogram>
+
+########################################
+
+<plots>
+
+########################
+# gene annotation ring
+########################
+
+<plot>
+type    = heatmap
+file    = ../snp_density/gene_counts_20kb_winds.txt
+#color   = spectral-5-div
+#color   = spectral-11-div
+color   = purples-9-seq
+scale_log_base   = 0.6
+r1   = 0.99r
+r0   = 0.91r
+</plot>
+
+###################
+### SNP heatmap ###
+###################
+
+<plot>
+type    = heatmap
+#file    = ../snp_density/snp_counts_20kb_winds_venenatum_only.txt
+#file = ../snp_density/for_circos_snp_density_20kb_venenatum_only.txt
+file = ../snp_density/snp_DENSITY_20kb_winds_venenatum_only.txt
+#color   = spectral-11-div
+#color   = blues-9-seq
+#color = ylorrd-9-seq
+# I really like this one
+#color = ylorrd-9-seq-3,ylorrd-9-seq-4,ylorrd-9-seq-5,ylorrd-9-seq-6,ylorrd-9-seq-7,ylorrd-9-seq-8,ylorrd-9-seq-9,vdpurple,vvdpurple
+color = ylorrd-9-seq-3,ylorrd-9-seq-4,ylorrd-9-seq-5,ylorrd-9-seq-6,ylorrd-9-seq-7,ylorrd-9-seq-8,ylorrd-9-seq-9
+#color = yellow,dyellow,orange,dorange,red,dpurple,vdpurple
+#scale_log_base = 0.45
+scale_log_base = 0.7
+r1      = 0.90r
+r0      = 0.82r
+</plot>
+
+#####################
+### INDEL heatmap ###
+#####################
+
+<plot>
+type    = heatmap
+file = ../snp_density/indel_DENSITY_20kb_winds_venenatum_only.txt
+#color = ylorrd-9-seq
+color = ylorrd-9-seq-3,ylorrd-9-seq-4,ylorrd-9-seq-5,ylorrd-9-seq-6,ylorrd-9-seq-7,ylorrd-9-seq-8,ylorrd-9-seq-9
+scale_log_base = 0.7
+r1      = 0.81r
+r0      = 0.73r
+</plot>
+
+#################################
+### GC CONTENT ANNOTAION RING ###
+#################################
+
+<plot>
+type  = histogram
+file  = gc_dev.txt
+r1    = 0.72r
+r0    = 0.66r
+fill_color = grey
+thickness  = 1
+extend_bin = no
+
+<rules>
+<rule>
+condition  = var(value) > 0
+fill_color = lgreen
+</rule>
+<rule>
+condition  = var(value) < 0
+fill_color = vdgreen
+</rule>
+</rules>
+
+
+</plot>
+
+######################
+### INSERTION RING ###
+######################
+
+<plot>
+type = tile
+file = ../snp_density/SVs_INS_4_diff_species.txt
+r1   = 0.65r
+r0   = 0.60r
+color = dblue
+layers = 1
+margin      = 0.05u
+orientation = center
+stroke_thickness = 2
+stroke_color     = dblue
+thickness = 50
+</plot>
+
+######################
+### DELETION RING ###
+######################
+
+<plot>
+type = tile
+file = ../snp_density/SVs_DEL_4_diff_species.txt
+r1   = 0.60r
+r0   = 0.55r
+color = dred
+layers = 1
+margin = 0.05u
+orientation = center
+stroke_thickness = 2
+stroke_color = dred
+thickness = 50
+</plot>
+
+######################
+### INVERSIONS RING ###
+######################
+
+<plot>
+type = tile
+file = ../snp_density/SVs_INV_4_diff_species.txt
+r1   = 0.55r
+r0   = 0.50r
+color = dorange
+layers = 1
+margin = 0.05u
+orientation = center
+stroke_thickness = 1
+stroke_color = dorange
+thickness = 50
+</plot>
+
+</plots>
+
+
+
+#####################
+### FOR THE LINKS ###
+#####################
+
+<links>
+
+<link>
+file          = ../snp_density/SVs_ITX_4_diff_species.txt
+radius        = 0.50r
+bezier_radius = 0.30r
+thickness     = 4p
+color = green
+</link>
+
+<link>
+file          = ../snp_density/SVs_CTX_4_diff_species.txt
+radius        = 0.40r
+bezier_radius = 0r
+thickness     = 4p
+color = dpurple
+</link>
+
+
+</links>
+
+
+
+
+
+
+
+
+
+
+
