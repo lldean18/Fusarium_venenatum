@@ -147,67 +147,28 @@ sed -i '/NaN/d' snp_density/indel_DENSITY_20kb_winds$suffix.txt
 # Prepare SV data for plotting #
 ################################
 
-##  # Create one Circos link file per SV type
-##  awk -v outdir="snp_density" -v suffix="$suffix" '
-##  BEGIN {
-##      FS = "[[:space:]]+"
-##  }
-##  # Skip comment lines and column headers
-##  /^#/ { next }
-##  /^Chr1[[:space:]]/ { next }
-##  # Skip blank lines
-##  NF == 0 { next }
-##  {
-##      chr1 = $1
-##      pos1 = $2
-##      chr2 = $4
-##      pos2 = $5
-##      type = $7
-##      score = $9
-##      # Check that the breakpoint coordinates are numeric
-##      if (pos1 !~ /^[0-9]+$/ || pos2 !~ /^[0-9]+$/)
-##          next
-##      # Create a small interval around each breakpoint
-##      start1 = pos1 - 1
-##      end1   = pos1 + 1
-##      start2 = pos2 - 1
-##      end2   = pos2 + 1
-##      # Prevent negative coordinates
-##      if (start1 < 0) start1 = 0
-##      if (start2 < 0) start2 = 0
-##      # Assign a colour to each SV type
-##      if (type == "DEL")
-##          colour = "red"
-##      else if (type == "INS")
-##          colour = "blue"
-##      else if (type == "INV")
-##          colour = "green"
-##      else if (type == "ITX")
-##          colour = "orange"
-##      else if (type == "CTX")
-##          colour = "purple"
-##      else
-##          colour = "grey"
-##      # Write a Circos link record
-##      file = outdir "/SVs_" type suffix ".txt"
-##      printf "%s\t%d\t%d\t%s\t%d\t%d\tcolor=%s\n", \
-##          chr1, start1, end1, chr2, start2, end2, colour >> file
-##  }' variants/SVs/breakdancer_SVs$suffix.out
+# generate the files for plotting each SV from the breakdancer output
+awk -v d="snp_density" -v suffix="$suffix" 'BEGIN{FS="[[:space:]]+"}
+    /^#/ || /^Chr1[[:space:]]/ || NF==0 {next}
+    $2~/^[0-9]+$/ && $5~/^[0-9]+$/ && $8~/^-?[0-9]+$/ && $9>=60 &&$10>=3 {
+        c1=$1; p1=$2; c2=$4; p2=$5; t=$7; z=($8<0 ? -$8 : $8)
+        s=(p1<p2 ? p1 : p2); e=(p1>p2 ? p1 : p2)
+        if (t=="DEL") print c1,s,e > d "/SVs_DEL" suffix ".txt"
+        else if (t=="INS") print c1,p1,p1+z > d "/SVs_INS" suffix ".txt"
+        else if (t=="INV") print c1,s,e > d "/SVs_INV" suffix ".txt"
+        else if (t=="ITX") print c1,s,e,c2,s,e > d "/SVs_ITX" suffix ".txt"
+        else if (t=="CTX") print c1,p1,p1+z,c2,p2,p2+z > d "/SVs_CTX" suffix ".txt"
+    }' variants/SVs/breakdancer_SVs$suffix.out
 
+# redo the inversions to be the breakpoints rather than the whole regions
+mv snp_density/SVs_INV$suffix.txt snp_density/SVs_INV_whole$suffix.txt
 
-awk -v outdir="snp_density" -v suffix="$suffix" '
-BEGIN { FS="[[:space:]]+" }
-/^#/ || /^Chr1[[:space:]]/ || NF==0 { next }
-$2~/^[0-9]+$/ && $5~/^[0-9]+$/ {
-    c1=$1; p1=$2; c2=$4; p2=$5; type=$7
-    s=(p1<p2 ? p1 : p2); e=(p1>p2 ? p1 : p2)
-    if (s==e) e=s+1
-    if (type=="INS" || type=="DEL" || type=="INV") {
-        if (c1==c2) print c1,s,e > outdir "/SVs_" type suffix ".txt"
-    } else if (type=="ITX" || type=="CTX") {
-        print c1,p1,p1+1,c2,p2,p2+1 > outdir "/SVs_" type suffix ".txt"
-    }
-}' variants/SVs/breakdancer_SVs$suffix.out
+awk 'BEGIN{FS="[[:space:]]+"}
+    /^#/ || /^Chr1[[:space:]]/ || NF==0 {next}
+    $7=="INV" && $9>=60 {
+        print $1,$2-5000,$2+5000
+        print $4,$5-5000,$5+5000
+    }' variants/SVs/breakdancer_SVs$suffix.out > snp_density/SVs_INV$suffix.txt
 
 
 
