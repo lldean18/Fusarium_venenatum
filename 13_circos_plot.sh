@@ -8,17 +8,17 @@ srun --partition defq --cpus-per-task 4 --mem 20g --time 08:00:00 --pty bash
 source $HOME/.bash_profile
 conda activate circos
 
-# the newer reference that they are not using:
-reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
-genome_identifier=Fusven1
+## the newer reference that they are not using:
+#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
+#genome_identifier=Fusven1
 
-## the older ref that they are using:
-#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-#genome_identifier=ASM90000737v1
+# the older ref that they are using:
+reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+genome_identifier=ASM90000737v1
 
 # the group of inds to be plotted
-suffix=_venenatum_only
-#suffix=_4_diff_species
+#suffix=_venenatum_only
+suffix=_4_diff_species
 
 mkdir -p /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos$suffix
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos$suffix
@@ -93,15 +93,15 @@ awk -v mean=$(awk '{sum+=$4; n++} END {print sum/n}' gc_track.txt) '{print $1,$2
 ### PREP STRUCTURAL VARIANT INFO ###
 ####################################
 
-/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants/SVs/breakdancer_SVs$suffix.out
+# done this in the snp counting script
 
 #####################
 ### TO RUN CIRCOS ###
 #####################
 # make the circos.conf file stipulating how you want the plot to be then
 # copy the circos.conf
-cp /gpfs01/home/mbzlld/data/paul_dyer/ASM90000737v1/circos/ticks.conf ./
-cp /gpfs01/home/mbzlld/data/paul_dyer/ASM90000737v1/circos/circos.conf ./
+cp /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos/ticks.conf ./
+cp /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos/circos.conf ./
 
 # if necessary edit the chromosome colours which are specified manually according to contig name in the circos.conf file
 
