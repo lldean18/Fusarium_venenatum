@@ -1,4 +1,5 @@
 #!/bin/bash
+# Laura Dean
 # 8/9/26
 
 # script to perform joint genotyping on individual level g.vcf.gz files with GATK4
@@ -34,35 +35,24 @@ WKDIR=/gpfs01/home/mbzlld/data/paul_dyer
 ##  genome_identifier=ASM90000737v1
 ##  suffix=_4_diff_species
 
-# running for the filtered subset of venenatum only individuals and the newer reference
+##  # running for the filtered subset of venenatum only individuals and the newer reference
+##  reference=GCF_020744135.1_Fusven1_genomic.fna
+##  genome_identifier=Fusven1
+##  suffix=_venenatum_only
+
+# Running for the 4 individuals alone that are a different species
 reference=GCF_020744135.1_Fusven1_genomic.fna
 genome_identifier=Fusven1
-suffix=_venenatum_only
+suffix=_4_diff_species
 
 # consolidate gvcfs into a database
 echo "MAKING THE DATABASE"
 singularity exec -B ${WKDIR}:${WKDIR} ~/software_bin/singularity/gatk.sif gatk GenomicsDBImport \
 --genomicsdb-workspace-path $genome_identifier/variants/FusariumDB$suffix \
---variant $genome_identifier/variants/114-1.g.vcf.gz \
---variant $genome_identifier/variants/114-2.g.vcf.gz \
---variant $genome_identifier/variants/114-3.g.vcf.gz \
---variant $genome_identifier/variants/114-4.g.vcf.gz \
---variant $genome_identifier/variants/114-5.g.vcf.gz \
---variant $genome_identifier/variants/114-6.g.vcf.gz \
---variant $genome_identifier/variants/114-7.g.vcf.gz \
---variant $genome_identifier/variants/114-8.g.vcf.gz \
---variant $genome_identifier/variants/114-9.g.vcf.gz \
---variant $genome_identifier/variants/114-12.g.vcf.gz \
---variant $genome_identifier/variants/114-13.g.vcf.gz \
---variant $genome_identifier/variants/114-14.g.vcf.gz \
---variant $genome_identifier/variants/114-15.g.vcf.gz \
---variant $genome_identifier/variants/114-16.g.vcf.gz \
---variant $genome_identifier/variants/114-17.g.vcf.gz \
---variant $genome_identifier/variants/114-18.g.vcf.gz \
---variant $genome_identifier/variants/114-20.g.vcf.gz \
---variant $genome_identifier/variants/114-21.g.vcf.gz \
---variant $genome_identifier/variants/114-22.g.vcf.gz \
---variant $genome_identifier/variants/114-25.g.vcf.gz \
+--variant $genome_identifier/variants/114-10.g.vcf.gz \
+--variant $genome_identifier/variants/114-11.g.vcf.gz \
+--variant $genome_identifier/variants/114-23.g.vcf.gz \
+--variant $genome_identifier/variants/114-24.g.vcf.gz \
 --reference reference_genomes/$reference \
 --intervals NW_027072129.1 \
 --intervals NW_027072130.1 \
