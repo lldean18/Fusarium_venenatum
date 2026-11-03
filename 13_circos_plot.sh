@@ -9,12 +9,12 @@ source $HOME/.bash_profile
 conda activate circos
 
 ## the newer reference that they are not using:
-#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
-#genome_identifier=Fusven1
+reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_020744135.1_Fusven1_genomic.fna
+genome_identifier=Fusven1
 
 # the older ref that they are using:
-reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
-genome_identifier=ASM90000737v1
+#reference=/gpfs01/home/mbzlld/data/paul_dyer/reference_genomes/GCF_900007375.1_ASM90000737v1_genomic.fna
+#genome_identifier=ASM90000737v1
 
 # the group of inds to be plotted
 #suffix=_venenatum_only
@@ -102,6 +102,7 @@ awk -v mean=$(awk '{sum+=$4; n++} END {print sum/n}' gc_track.txt) '{print $1,$2
 # copy the circos.conf
 cp /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos/ticks.conf ./
 cp /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos/circos.conf ./
+cp /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/circos_venenatum_only/circos.conf ./
 
 # if necessary edit the chromosome colours which are specified manually according to contig name in the circos.conf file
 
