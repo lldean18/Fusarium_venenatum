@@ -19,8 +19,8 @@ source $HOME/.bash_profile
 conda activate breakdancer
 
 # set variables
-genome_identifier=ASM90000737v1
-##genome_identifier=Fusven1
+##genome_identifier=ASM90000737v1
+genome_identifier=Fusven1
 
 
 mkdir -p ~/data/paul_dyer/$genome_identifier/variants/SVs
