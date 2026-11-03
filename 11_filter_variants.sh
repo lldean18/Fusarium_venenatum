@@ -27,8 +27,8 @@ WKDIR=/gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
 cd /gpfs01/home/mbzlld/data/paul_dyer/$genome_identifier/variants
 
 #suffix=
-suffix=_venenatum_only
-#suffix=_4_diff_species
+#suffix=_venenatum_only
+suffix=_4_diff_species
 
 ###################################################################################
 # first if you have kept invariant sites in the original vcf remove the * entries #
