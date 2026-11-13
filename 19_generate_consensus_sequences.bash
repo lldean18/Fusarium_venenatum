@@ -36,10 +36,9 @@ INDIVIDUALS=(114-5 114-10 114-12 114-24)
 for INDIVIDUAL in ${INDIVIDUALS[@]}
 do
 bcftools consensus \
-  -f $REFEFENCE \
-  -s $INDIVIDUAL \
-  $VCF \
-  > ${INDIVIDUAL}_consensus.fa
+  --fasta-ref $REFERENCE \
+  --samples $INDIVIDUAL \
+  $VCF > ${INDIVIDUAL}_consensus.fa
 done
 
 # cleanup env
